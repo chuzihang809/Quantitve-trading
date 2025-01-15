@@ -103,9 +103,9 @@ void trading::trade()//在一段时间内第一次shortAVG > longAVG执行buy操
 void trading::buy_in_out(bool flag)
 {
 	if (flag) cout << "In day:" << last_prices.size() << ' ' 
-		<< "buy in" << ' ' <<quantity<<'*'<< todayprice << endl;
+		<< "buy in" << ' ' <<get_buyquantity()<<'*'<< todayprice << endl;
 	else  cout<< "In day:" << last_prices.size() << ' ' 
-		<< "sell in" << ' ' << quantity << '*'<<todayprice << endl;
+		<< "sell in" << ' ' << get_sellquantity() << '*'<<todayprice << endl;
 }
 
 double trading::get_sellquantity()
@@ -145,7 +145,7 @@ void trading::log_trading(const char action[])
 			cout << "Unable to open file tradinglog.txt";
 		}
 		outputFile<< "In day:" << last_prices.size() << ' ' << "buy in" 
-			<< ' ' << quantity << '*' << get_buyquantity() << endl;
+			<< ' ' << get_buyquantity() << '*' << todayprice << endl;
 	}
 	else if ((strcmp(action, "Sell") == 0))
 	{

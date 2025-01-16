@@ -2,7 +2,7 @@
 #include<vector>
 #include <numeric>
 #include<fstream>
-#include<cstring>
+#include<string>
 #include <thread>
 #include <chrono>
 
@@ -12,24 +12,24 @@ class trading
 {
 private:
 
-	char name[20];//交易股票名字或代码
+	string name;//交易股票名字或代码
 	int shortperiod;//经济学中的短期交易周期，经验给出，用户可变更
 	int longperiod;//经济学中的长期交易周期，经验给出，用户可变更
 	double max_money;//最大交易金额,交易单位为人民币
 	double MAX_quantity;//最大交易数量，用户可变更
 	double todayprice;
-	double rating=0;//权重，用于设置购买数量
+	double rating = 0;//权重，用于设置购买数量
 	double quantity;//实际购买数量
-	int zhuangtaiji=1;//利用状态机实现在一段时间内只对shortAVG第一次大于longAVG时进行买入
+	int zhuangtaiji = 1;//利用状态机实现在一段时间内只对shortAVG第一次大于longAVG时进行买入
 	vector<double> last_prices;//用于存储此后价格的数组
-	
+
 
 public:
 
 	trading();
-	void set_period(int shortp,int longp);
+	void set_period(int shortp, int longp);
 	void get_todayPrices();//获取实时价格
-	void set_name(const char *);
+	void set_name(const string&);
 	double calculateAVG(int);
 	void trade();//判断是否交易的函数
 	void buy_in_out(bool flag);//执行交易函数
@@ -40,13 +40,9 @@ public:
 	void run();//运行程序
 };
 
-trading::trading()
+trading::trading() : name("NASDAQ"), shortperiod(5),
+longperiod(20), max_money(100000), quantity(10)
 {
-	strcpy_s(name, "NASDAQ");
-	shortperiod = 5;
-	longperiod = 20;//基于经验分别将短期长期设置为5天和20天
-	max_money = 100000;
-	quantity = 10;//将交易数初始化为10，后续根据权重计算
 
 	for (int i = 0; i < longperiod; ++i) //提前给出20天的价格数据
 	{
@@ -55,12 +51,12 @@ trading::trading()
 	}
 }
 
-void trading::set_name(const char *inname)
+void trading::set_name(const string& inname)
 {
-	strcpy_s(name, inname);
+	name = inname;
 }
 
-void trading::set_period(int shortp,int longp)//短期长期设置
+void trading::set_period(int shortp, int longp)//短期长期设置
 {
 	shortperiod = shortp;
 	longperiod = longp;
@@ -83,15 +79,15 @@ void trading::trade()//在一段时间内第一次shortAVG > longAVG执行buy操
 	double shortAVG = calculateAVG(shortperiod);
 	double longAVG = calculateAVG(longperiod);
 
-	cout << name <<' '<< "Today's" << "shortAVG:" << shortAVG << ' ' << "Today's longAVG:" << longAVG << endl;
-	if (shortAVG > longAVG&&zhuangtaiji==1)
+	cout << name << ' ' << "Today's" << "shortAVG:" << shortAVG << ' ' << "Today's longAVG:" << longAVG << endl;
+	if (shortAVG > longAVG && zhuangtaiji == 1)
 	{
 		buy_in_out(true);
 		zhuangtaiji = 0;
 		log_trading("Buy");
 		quantity = get_sellquantity();
 	}
-	else if (shortAVG < longAVG&&zhuangtaiji==0)
+	else if (shortAVG < longAVG && zhuangtaiji == 0)
 	{
 		buy_in_out(false);
 		zhuangtaiji = 1;
@@ -102,10 +98,10 @@ void trading::trade()//在一段时间内第一次shortAVG > longAVG执行buy操
 
 void trading::buy_in_out(bool flag)
 {
-	if (flag) cout << "In day:" << last_prices.size() << ' ' 
-		<< "buy in" << ' ' << name<<' ' << quantity << '*' << todayprice << endl;
-	else  cout<< "In day:" << last_prices.size() << ' ' 
-		<< "sell in" << ' ' << name << ' '<< quantity << '*'<<todayprice << endl;
+	if (flag) cout << "In day:" << last_prices.size() << ' '
+		<< "buy in" << ' ' << name << ' ' << quantity << '*' << todayprice << endl;
+	else  cout << "In day:" << last_prices.size() << ' '
+		<< "sell in" << ' ' << name << ' ' << quantity << '*' << todayprice << endl;
 }
 
 double trading::get_sellquantity()
@@ -140,12 +136,12 @@ void trading::log_trading(const char action[])
 	{
 		ofstream outputFile;
 		outputFile.open("tradinglog.txt");
-		if (!outputFile) 
+		if (!outputFile)
 		{
 			cout << "Unable to open file tradinglog.txt";
 		}
 		outputFile << "In day:" << last_prices.size() << ' ' << "buy in"
-			<< ' ' << name <<' ' << get_buyquantity() << '*' << todayprice << endl;
+			<< ' ' << name << ' ' << get_buyquantity() << '*' << todayprice << endl;
 	}
 	else if ((strcmp(action, "Sell") == 0))
 	{
@@ -165,12 +161,13 @@ bool trading::riskcontrol() {
 }
 
 void trading::run() {
-    while (true) {
-        get_todayPrices(); // 获取今日价格并存入向量
-        trade(); // 判断是否交易
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // 模拟每天获取一次价格
-        if (cin.get() == 'q') break; // 按键退出系统
-    }
+	while (1)
+	{
+		get_todayPrices(); // 获取今日价格并存入向量
+		trade(); // 判断是否交易
+		this_thread::sleep_for(chrono::seconds(1)); // 模拟每天获取一次价格
+		if (cin.get() == 'q') break; // 按键退出系统
+	}
 }
 
 int main()

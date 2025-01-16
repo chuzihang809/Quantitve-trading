@@ -16,7 +16,7 @@ private:
 	int shortperiod;//经济学中的短期交易周期，经验给出，用户可变更
 	int longperiod;//经济学中的长期交易周期，经验给出，用户可变更
 	double max_money;//最大交易金额,交易单位为人民币
-	double MAX_quantity;//一次性交易数量，用户可变更
+	double MAX_quantity;//最大交易数量，用户可变更
 	double todayprice;
 	double rating=0;//权重，用于设置购买数量
 	double quantity;//实际购买数量
@@ -83,7 +83,7 @@ void trading::trade()//在一段时间内第一次shortAVG > longAVG执行buy操
 	double shortAVG = calculateAVG(shortperiod);
 	double longAVG = calculateAVG(longperiod);
 
-	cout << "Today's shortAVG:" << shortAVG << ' ' << "Today's longAVG:" << longAVG << endl;
+	cout << name <<' '<< "Today's" << "shortAVG:" << shortAVG << ' ' << "Today's longAVG:" << longAVG << endl;
 	if (shortAVG > longAVG&&zhuangtaiji==1)
 	{
 		buy_in_out(true);
@@ -103,9 +103,9 @@ void trading::trade()//在一段时间内第一次shortAVG > longAVG执行buy操
 void trading::buy_in_out(bool flag)
 {
 	if (flag) cout << "In day:" << last_prices.size() << ' ' 
-		<< "buy in" << ' ' <<get_buyquantity()<<'*'<< todayprice << endl;
+		<< "buy in" << ' ' << name<<' ' << quantity << '*' << todayprice << endl;
 	else  cout<< "In day:" << last_prices.size() << ' ' 
-		<< "sell in" << ' ' << get_sellquantity() << '*'<<todayprice << endl;
+		<< "sell in" << ' ' << name << ' '<< quantity << '*'<<todayprice << endl;
 }
 
 double trading::get_sellquantity()
@@ -144,8 +144,8 @@ void trading::log_trading(const char action[])
 		{
 			cout << "Unable to open file tradinglog.txt";
 		}
-		outputFile<< "In day:" << last_prices.size() << ' ' << "buy in" 
-			<< ' ' << get_buyquantity() << '*' << todayprice << endl;
+		outputFile << "In day:" << last_prices.size() << ' ' << "buy in"
+			<< ' ' << name <<' ' << get_buyquantity() << '*' << todayprice << endl;
 	}
 	else if ((strcmp(action, "Sell") == 0))
 	{
@@ -156,7 +156,7 @@ void trading::log_trading(const char action[])
 			cout << "Unable to open file tradinglog.txt";
 		}
 		outputFile << "In day:" << last_prices.size() << ' '
-			<< "sell in" << ' ' << get_sellquantity() << '*' << todayprice << endl;
+			<< "sell in" << ' ' << name << ' ' << get_sellquantity() << '*' << todayprice << endl;
 	}
 }
 

@@ -1,34 +1,23 @@
-# 基于C++语言设计的量化交易系统
+# Quantitative Trading System Designed in C++
 
 im_not_real
 
-## 1.设计思路与目的
+## 1. Design Concept and Purpose
 
-在现代金融体系中，出现了众多基于计算机的高效率，高性能设计出的交易系统。
-计算机高性能计算的特点让交易系统能够更准确地捕捉到金融市场的变化，从而更有可能实现盈利。
-而在计算机高级语言中，C++又因为其高性能低延迟的特点，常常被用于搭建交易系统。
-笔者将基于C++语言设计一个简单的，初步的量化交易系统。
+In modern financial systems, many trading systems have been developed based on high-efficiency, high-performance computer designs. The high-performance computing capabilities of computers allow trading systems to more accurately capture changes in the financial markets, thus increasing the chances of achieving profitability. Among high-level programming languages, C++ is often used to build trading systems due to its high performance and low latency characteristics.
 
-## 2.项目总体框架
+## 2. Overall Project Framework
 
-笔者将设计一个trading类，用于模仿市场的走向并包含交易策略。
-其中函数成员包含了构造函数，用于初始化市场的基本参数如交易金额或市场价格。
-用calculate，trade函数，用于自动获取市场交易信息，在获取到市场的价格的基础上计算获利概率，
-通过移动平均线的交易策略决定是否交易等等。将会在代码中编写注释介绍，在此不一一介绍。
+The source code consists of three categories: trading classes, logging classes, and data retrieval classes. The decision to trade is based on a moving average trading strategy, among others. Detailed comments explaining the code will be provided, so they will not be elaborated on here.
 
-## 3.项目优势
+## 3. Project Advantages
 
-项目基于移动平均线的交易策略，该交易策略是基于经济学与概率学的，帮助进行系统的量化交易。
-项目完全实现了自动化，只需用户进行简单的初始化后便可自动的进行交易。
-项目特别设计了交易历史记录系统，可以让用户了解过往交易盈亏从而调整参数。
+This project is based on a moving average trading strategy, which is grounded in economics and probability theory, helping to conduct systematic quantitative trading. The project has initially implemented automation, requiring only simple initialization by the user to automatically conduct simulated trading. A transaction history recording system has been specially designed for the project.
 
-## 4.问题与解决办法
+## 4. Issues and Solutions
 
-本项目的设计目的是实现一个高性能的交易系统，但本项目并没有完全的实现高性能的特点，
-也就是说并没有发挥出C++的语言特性。但碍于笔者的算法知识和金融知识有限，
-无法设计出更加高效的算法，只能改变一种更加科学和高效的交易策略。
+The purpose of this project is to create a high-performance trading system; however, it does not implement high-frequency computation, meaning the C++ language features are not fully leveraged. Due to limitations in the author’s knowledge of algorithms and finance, it is not possible to design a more efficient algorithm. The focus instead is on developing a more scientifically sound and efficient trading strategy.
 
-## 5.运行环境
+## 5. Operating Environment
 
-在本地环境下：（windows11系统+Visual Studio 2022 ISO C++14 标准）代码能够正常通过编译并运行，
-建议在本地运行时至少选择C++14以上的标准，以防产生意料之外的错误。
+On the local environment: (Windows 11, Visual Studio 2022 with ISO C++14 standard) the code can be compiled and run successfully. It is recommended to use at least C++11 or higher to avoid unexpected errors during local execution.
